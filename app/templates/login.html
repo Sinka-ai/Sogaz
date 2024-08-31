@@ -1,18 +1,34 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Login now!</h1>
+<h1 class="mb-4">Login now!</h1>
 <form action="" method="post" novalidate>
     {{ form.hidden_tag() }}
-    <p>
-    {{form.username.label}} <br>
-    {{form.username(size=20)}}<br>
-    </p>
-
-    {{form.password.label}} <br>
-    {{form.password(size=20)}}<br>
-
-    {{form.submit}}
+    <div class="form-group">
+        {{ form.username.label(class="form-label") }}
+        {{ form.username(class="form-control") }}
+        {% for error in form.username.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{ form.password.label(class="form-label") }}
+        {{ form.password(class="form-control") }}
+        {% for error in form.password.errors %}
+        <div class="text-danger">{{ error }}</div>
+        {% endfor %}
+    </div>
+    {{ form.submit(class="btn btn-primary") }}
 </form>
 
+<!-- Добавление flash-сообщений -->
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="alert alert-danger mt-3">
+            {% for category, message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
 {% endblock %}

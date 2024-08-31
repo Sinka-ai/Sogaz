@@ -1,14 +1,18 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Написать сообщение</h2>
-<form method="post">
+<h2 class="mb-4">Написать сообщение</h2>
+<form method="post" class="form-group">
     {{ form.hidden_tag() }}
-    {{ form.recipient.label }}<br>
-    {{ form.recipient(size=30) }}<br>
-    {{ form.content.label }}<br>
-    {{ form.content(size=50) }}<br>
-    {{ form.submit() }}
+    <div class="form-group">
+        {{ form.recipient.label(class="form-label") }}
+        {{ form.recipient(class="form-control", size=30) }}
+    </div>
+    <div class="form-group">
+        {{ form.content.label(class="form-label") }}
+        {{ form.content(class="form-control", rows=5) }}
+    </div>
+    <button type="submit" class="btn btn-success">Send</button>
 </form>
-<a href="{{ url_for('messages') }}">Назад к сообщениям</a>
+<a href="{{ url_for('messages') }}" class="btn btn-link mt-3">Назад к сообщениям</a>
 {% endblock %}

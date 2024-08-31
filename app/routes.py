@@ -1,14 +1,48 @@
 from app import app,db
+import pandas as pd
 from flask import render_template,redirect,url_for,flash,request
 from app.forms import RegisterForm,LoginForm,MessageForm, ChatMessageForm
 from app.models import User, Message
 from flask_login import login_user, logout_user, current_user, login_required
-
+import seaborn as sns
+import matplotlib.pyplot as plt
+import io
+import base64
 @app.route('/')
 def index():
     return render_template('index.html')
 
 
+@app.route('/analytics')
+@login_required
+def analytics():
+    # Подключение к базе данных
+    connection = db.engine.connect()
+
+    # Выполнение SQL-запроса и загрузка данных в DataFrame
+    query = """
+    SELECT sender_id, recipient_id, content, timestamp
+    FROM message
+    """
+    df = pd.read_sql_query(query, connection)
+
+    # Пример анализа: количество сообщений по пользователям
+    message_counts = df['sender_id'].value_counts()
+
+    # Построение графика с использованием Seaborn
+    plt.figure(figsize=(10, 6))
+    sns.barplot(x=message_counts.index, y=message_counts.values, palette='viridis')
+    plt.title('Number of Messages Sent by User')
+    plt.xlabel('User ID')
+    plt.ylabel('Number of Messages')
+
+    # Сохранение графика в буфер
+    buf = io.BytesIO()
+    plt.savefig(buf, format='png')
+    buf.seek(0)
+    graph_url = base64.b64encode(buf.getvalue()).decode()
+
+    return render_template('analytics.html', graph_url=graph_url)
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -16,9 +50,11 @@ def register():
 
     form = RegisterForm()
     if form.validate_on_submit():
-        existing_user = User.query.filter_by(email=form.email.data).first()
-        if existing_user:
-            flash('Email already exists! Please use a different one.')
+        existing_email = User.query.filter_by(email=form.email.data).first()
+        existing_username = User.query.filter_by(password=form.username.data).first()
+        if existing_username or existing_email:
+            if existing_username: flash('Username already exists! Please use a different one.')
+            else: flash('Email already exists! Please use a different one.')
             return redirect(url_for('register'))
 
         new_user = User(

@@ -1,18 +1,25 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Чат с {{ user.username }}</h2>
-<div>
-    {% for message in messages %}
-    <p><strong>{{ message.sender.username }}:</strong> {{ message.content }} <em>{{ message.timestamp }}</em></p>
-    {% endfor %}
-</div>
+<div class="mt-5">
+    <h2 class="mb-4">Чат с {{ user.username }}</h2>
+    <div class="border p-3 mb-4 rounded">
+        {% for message in messages %}
+        <div class="mb-3">
+            <strong>{{ message.sender.username }}:</strong> {{ message.content }}
+            <small class="text-muted">{{ message.timestamp }}</small>
+        </div>
+        {% endfor %}
+    </div>
 
-<form method="post">
-    {{ form.hidden_tag() }}
-    {{ form.content.label }}<br>
-    {{ form.content(size=50) }}<br>
-    {{ form.submit() }}
-</form>
-<a href="{{ url_for('messages') }}">Назад к сообщениям</a>
+    <form method="post">
+        {{ form.hidden_tag() }}
+        <div class="form-group">
+            {{ form.content.label(class="form-label") }}
+            {{ form.content(class="form-control", rows=3) }}
+        </div>
+        <button type="submit" class="btn btn-primary">Send</button>
+    </form>
+    <a href="{{ url_for('messages') }}" class="btn btn-link mt-3">Назад к сообщениям</a>
+</div>
 {% endblock %}

@@ -1,13 +1,15 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h2>Ваши диалоги</h2>
-<ul>
+<h2 class="my-4">Ваши диалоги</h2>
+<ul class="list-group">
     {% for user in dialogues %}
-    {% if user.username != current_user.username %}
-    <li><a href="{{ url_for('chat', user_id=user.id) }}">{{ user.username }}</a></li>
-    {% endif %}
+    <li class="list-group-item d-flex justify-content-between align-items-center">
+        {% if user.username != current_user.username %}
+        <a href="{{ url_for('chat', user_id=user.id) }}">{{ user.username }}</a>
+        {% endif %}
+    </li>
     {% endfor %}
 </ul>
-<a href="{{ url_for('send_message') }}">Написать сообщение</a>
+<a href="{{ url_for('send_message') }}" class="btn btn-primary mt-4">Написать сообщение</a>
 {% endblock %}

@@ -1,34 +1,49 @@
 {% extends "base.html" %}
 
 {% block content %}
-<h1>Register now!</h1>
-<form action="" method="post" novalidate>
+<h1 class="mb-4">Register now!</h1>
+<form action="" method="post" novalidate class="form-group">
     {{ form.hidden_tag() }}
-    <p>
-    {{form.username.label}} <br>
-    {{form.username(size=20)}}<br>
-    {% for error in form.username.errors %}
-     <span style="color: red;">[{{ error }}]</span>
-    {% endfor %}
-    </p>
-    <p>
-    {{form.email.label}} <br>
-    {{form.email(size=20)}}<br>
-    {% for error in form.email.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-    </p>
-    {{form.password1.label}} <br>
-    {{form.password1(size=20)}}<br>
-    {% for error in form.password1.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-    {{form.password2.label}} <br>
-    {{form.password2(size=20)}}<br>
-    {% for error in form.password2.errors %}
-            <span style="color: red;">[{{ error }}]</span>
-            {% endfor %}
-    {{form.submit}}
+    <div class="form-group">
+        {{form.username.label(class="form-label")}}
+        {{form.username(class="form-control", size=20)}}
+        {% for error in form.username.errors %}
+        <div class="text-danger">[{{ error }}]</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{form.email.label(class="form-label")}}
+        {{form.email(class="form-control", size=20)}}
+        {% for error in form.email.errors %}
+        <div class="text-danger">[{{ error }}]</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{form.password1.label(class="form-label")}}
+        {{form.password1(class="form-control", size=20)}}
+        {% for error in form.password1.errors %}
+        <div class="text-danger">[{{ error }}]</div>
+        {% endfor %}
+    </div>
+    <div class="form-group">
+        {{form.password2.label(class="form-label")}}
+        {{form.password2(class="form-control", size=20)}}
+        {% for error in form.password2.errors %}
+        <div class="text-danger">[{{ error }}]</div>
+        {% endfor %}
+    </div>
+    {{form.submit(class="btn btn-primary")}}
 </form>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+        <div class="alert alert-danger mt-3">
+            {% for category, message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
+    {% endif %}
+{% endwith %}
+
 
 {% endblock %}
