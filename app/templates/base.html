@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+        {% if title %}
+        <title>{{ title }} - Sogaz_messenger</title>
+        {% else %}
+        <title>Welcome to Sogaz_messenger</title>
+        {% endif %}
+</head>
+<body>
+<div align="left">
+<a href="/">Home <br></a>
+
+{% if current_user.is_anonymous %}
+<a href="{{ url_for('login') }}">Login</a>
+    <br>
+<a href="{{ url_for('register') }}">Register<br></a>
+
+
+{% else %}
+<a href="{{ url_for('messages') }}">Messages<br></a>
+    <br>
+<a href="{{ url_for('logout') }}">Logout</a>
+
+{% endif %}
+</div>
+<hr>
+
+{% block content %} {% endblock %}
+</body>
+</html>

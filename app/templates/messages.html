@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Ваши диалоги</h2>
+<ul>
+    {% for user in dialogues %}
+    {% if user.username != current_user.username %}
+    <li><a href="{{ url_for('chat', user_id=user.id) }}">{{ user.username }}</a></li>
+    {% endif %}
+    {% endfor %}
+</ul>
+<a href="{{ url_for('send_message') }}">Написать сообщение</a>
+{% endblock %}

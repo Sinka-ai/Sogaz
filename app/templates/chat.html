@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Чат с {{ user.username }}</h2>
+<div>
+    {% for message in messages %}
+    <p><strong>{{ message.sender.username }}:</strong> {{ message.content }} <em>{{ message.timestamp }}</em></p>
+    {% endfor %}
+</div>
+
+<form method="post">
+    {{ form.hidden_tag() }}
+    {{ form.content.label }}<br>
+    {{ form.content(size=50) }}<br>
+    {{ form.submit() }}
+</form>
+<a href="{{ url_for('messages') }}">Назад к сообщениям</a>
+{% endblock %}

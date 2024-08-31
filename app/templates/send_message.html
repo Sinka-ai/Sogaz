@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+
+{% block content %}
+<h2>Написать сообщение</h2>
+<form method="post">
+    {{ form.hidden_tag() }}
+    {{ form.recipient.label }}<br>
+    {{ form.recipient(size=30) }}<br>
+    {{ form.content.label }}<br>
+    {{ form.content(size=50) }}<br>
+    {{ form.submit() }}
+</form>
+<a href="{{ url_for('messages') }}">Назад к сообщениям</a>
+{% endblock %}
