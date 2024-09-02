@@ -16,27 +16,22 @@ def index():
 @app.route('/analytics')
 @login_required
 def analytics():
-    # Подключение к базе данных
     connection = db.engine.connect()
-
-    # Выполнение SQL-запроса и загрузка данных в DataFrame
     query = """
     SELECT sender_id, recipient_id, content, timestamp
     FROM message
     """
     df = pd.read_sql_query(query, connection)
 
-    # Пример анализа: количество сообщений по пользователям
     message_counts = df['sender_id'].value_counts()
 
-    # Построение графика с использованием Seaborn
     plt.figure(figsize=(10, 6))
     sns.barplot(x=message_counts.index, y=message_counts.values, palette='viridis')
     plt.title('Number of Messages Sent by User')
     plt.xlabel('User ID')
     plt.ylabel('Number of Messages')
 
-    # Сохранение графика в буфер
+
     buf = io.BytesIO()
     plt.savefig(buf, format='png')
     buf.seek(0)
@@ -91,7 +86,6 @@ def login():
 @app.route('/messages')
 @login_required
 def messages():
-    # Получаем все уникальные диалоги для текущего пользователя
     dialogues = db.session.query(User).join(Message,
                 (Message.sender_id == User.id) | (Message.recipient_id == User.id)
                ).filter((Message.sender_id == current_user.id) | (Message.recipient_id == current_user.id)).distinct()
