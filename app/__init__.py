@@ -14,7 +14,6 @@ login.login_view = 'login'
 with app.app_context():
     from app import routes, models
 
-    # Создаем все таблицы
     db.create_all()
 
 
