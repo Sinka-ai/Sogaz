@@ -45,8 +45,8 @@
 </details>
 
 <details><summary><b>Скриншоты:</b></summary>
-| ![Main page](/pictures/1.jpg "Main page") | | :--: | | *Main page* |
-| ![Login page](/pictures/2.jpg "Login page") | | *Login page* | 
+| ![Main page](/pictures/1.png "Main page") | | :--: | | *Main page* |
+| ![Login page](/pictures/2.png "Login page") | | *Login page* | 
 </details>
 
 <details>
